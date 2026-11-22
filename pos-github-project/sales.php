@@ -1,0 +1,4 @@
+<?php
+require_once 'includes/functions.php';require_login();$sales=db()->query('SELECT s.*,u.name cashier FROM sales s JOIN users u ON u.id=s.user_id ORDER BY s.id DESC LIMIT 200')->fetchAll();$page_title='Sales History';require 'includes/header.php'; ?>
+<div class="panel"><div class="panel-head"><h1>Sales History</h1><a class="button" href="sale.php">New sale</a></div><div class="table-wrap"><table><tr><th>Bill No.</th><th>Date</th><th>Cashier</th><th>Payment</th><th>Total</th><th>Receipt</th></tr><?php foreach($sales as $s): ?><tr><td>#<?= (int)$s['id'] ?></td><td><?= e($s['sale_date']) ?></td><td><?= e($s['cashier']) ?></td><td><?= e($s['payment_method']) ?></td><td><?= money($s['total_amount']) ?></td><td><a href="receipt.php?id=<?= (int)$s['id'] ?>">View</a></td></tr><?php endforeach; ?><?php if(!$sales): ?><tr><td colspan="6">No transactions yet.</td></tr><?php endif; ?></table></div></div>
+<?php require 'includes/footer.php'; ?>
